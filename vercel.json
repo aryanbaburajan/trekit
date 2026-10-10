@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build:client",
+  "outputDirectory": "client/dist",
+  "functions": {
+    "api/world.js": { "maxDuration": 60 }
+  }
+}
