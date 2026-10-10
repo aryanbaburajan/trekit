@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { boundsFor, overpassQuery, isExpired, poiCategory, buildingHeight, normalizeElements, CACHE_AGE } from '../lib/world.js';
+import { overpass } from '../lib/providers.js';
+test('creates a 1 km square bounds', () => { const b=boundsFor(0,0); assert.ok(Math.abs((b.north-b.south)*111320-1000)<2); assert.ok(Math.abs((b.east-b.west)*111320-1000)<2); });
+test('query includes roads, POIs and buildings', () => { const q=overpassQuery(boundsFor(10,77)); assert.match(q,/way\[highway\]/);assert.match(q,/way\[building\]/);assert.match(q,/node\["name"\]\[amenity\]/); });
+test('cache expiry is 24 hours',()=>{assert.equal(isExpired(Date.now()-CACHE_AGE-1),true);assert.equal(isExpired(Date.now()-CACHE_AGE+1),false);});
+test('POI priority and height precedence',()=>{assert.equal(poiCategory({amenity:'cafe'}),'food');assert.equal(poiCategory({shop:'books'}),'shop');assert.equal(buildingHeight({height:'22 m','building:levels':'2'}),22);assert.equal(buildingHeight({'building:levels':'4'}),12);assert.equal(buildingHeight({}),8);});
+test('accepts large upstream responses',()=>assert.deepEqual(normalizeElements(Array(50001),boundsFor(0,0)),{roads:[],buildings:[],pois:[]}));
+test('uses an alternate Overpass provider after a rate limit', async () => { let calls=0; const data=await overpass('query',async()=>{ calls++; return calls===1 ? {ok:false,status:429} : {ok:true,json:async()=>({elements:[]})}; },['first','second']); assert.equal(calls,2);assert.deepEqual(data,{elements:[]}); });

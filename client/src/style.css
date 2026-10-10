@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap');
+
+*{box-sizing:border-box}
+body{margin:0;overflow:hidden;background:#080808;color:#f5f5f5;font-family:Geist,Arial,sans-serif}
+#scene,main{position:fixed;inset:0}
+canvas{display:block}
+.controls{position:fixed;z-index:2;top:50%;left:50%;width:min(336px,calc(100vw - 40px));display:grid;gap:10px;transform:translate(-50%,-50%);transition:top .32s ease,left .32s ease,transform .32s ease}
+.controls.docked{top:20px;left:20px;transform:none}
+form{display:flex;gap:7px;margin:0}
+input,button{font:500 12px Geist,Arial,sans-serif}
+#place{min-width:0;flex:1;height:38px;padding:0 15px;border:1px solid #ffffff52;border-radius:999px;background:#090909cc;color:#fff;outline:none;backdrop-filter:blur(10px);transition:border-color .18s ease,background .18s ease,box-shadow .18s ease}
+#place:focus{border-color:#fff}
+button{height:38px;padding:0 15px;border:1px solid #fff;border-radius:999px;background:#fff;color:#090909;cursor:pointer;transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease,opacity .2s ease}
+button:disabled{opacity:.45;cursor:wait}
+form button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:82px}
+.spinner{display:none;width:13px;height:13px;border:2px solid #09090933;border-top-color:#090909;border-radius:50%;animation:spin .7s linear infinite}
+button.loading .spinner{display:block}
+button.loading span{display:none}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets button{height:29px;padding:0 11px;border-color:#ffffff46;background:#0a0a0acc;color:#f2f2f2;font-size:11px;backdrop-filter:blur(8px)}
+.presets button:hover{background:#ffffff24;border-color:#fff;transform:translateY(-1px)}
+.presets button.active{background:#fff;color:#090909;border-color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px #0007}
+@media(max-width:640px){.controls.docked{top:12px;left:12px}.controls{width:calc(100vw - 24px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
