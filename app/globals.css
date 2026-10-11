@@ -17,8 +17,8 @@ form button{display:inline-flex;align-items:center;justify-content:center;gap:11
 button.loading .spinner{display:block}
 button.loading span{display:none}
 .presets{display:flex;flex-wrap:wrap;gap:9px}
-.presets button{height:44px;padding:0 17px;border-color:#ffffff46;background:#0a0a0acc;color:#f2f2f2;font-size:17px;backdrop-filter:blur(8px)}
+.presets button{height:44px;padding:0 17px;border-color:#ffffff46;background:#0a0a0acc;color:#f2f2f2;font-size:17px;backdrop-filter:blur(8px);transition:background .2s ease,color 0s,border-color .2s ease,transform .2s ease,opacity .2s ease}
 .presets button:hover{background:#ffffff24;border-color:#fff;transform:translateY(-1px)}
-.presets button.active{background:#fff;color:#090909;border-color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px #0007}
+.presets button.active{background:#fff;color:#090909;border-color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px #0007;transition:background .2s ease,color .1s ease .1s,border-color .2s ease,transform .2s ease,opacity .2s ease}
 @media(max-width:720px){.controls.docked{top:12px;left:12px}.controls{width:calc(100vw - 24px)}#place,button{height:52px}input,button{font-size:16px}.presets button{height:40px;font-size:15px;padding:0 15px}form button{min-width:112px}.spinner{width:18px;height:18px}}
 @keyframes spin{to{transform:rotate(360deg)}}
