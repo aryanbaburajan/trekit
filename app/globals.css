@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600&family=Noto+Sans+Thai:wght@400;500;600&family=Noto+Sans:wght@400;500;600&display=swap');
 
 *{box-sizing:border-box}
-body{margin:0;overflow:hidden;background:#080808;color:#f5f5f5;font-family:Geist,Arial,sans-serif}
+body{margin:0;overflow:hidden;background:#080808;color:#f5f5f5;font-family:'Noto Sans','Noto Sans KR','Noto Sans JP','Noto Sans Thai',system-ui,sans-serif}
 #scene,main{position:fixed;inset:0}
 canvas{display:block}
 .controls{position:fixed;z-index:2;top:50%;left:50%;width:min(504px,calc(100vw - 40px));display:grid;gap:15px;transform:translate(-50%,-50%);transition:top .32s ease,left .32s ease,transform .32s ease}
 .controls.docked{top:20px;left:20px;transform:none}
 form{display:flex;gap:11px;margin:0}
-input,button{font:500 18px Geist,Arial,sans-serif}
+input,button{font:500 18px 'Noto Sans','Noto Sans KR','Noto Sans JP','Noto Sans Thai',system-ui,sans-serif}
 #place{min-width:0;flex:1;height:57px;padding:0 23px;border:1px solid #ffffff52;border-radius:999px;background:#090909cc;color:#fff;outline:none;backdrop-filter:blur(10px);transition:border-color .18s ease,background .18s ease,box-shadow .18s ease}
 #place:focus{border-color:#fff}
 button{height:57px;padding:0 23px;border:1px solid #fff;border-radius:999px;background:#fff;color:#090909;cursor:pointer;transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease,opacity .2s ease}

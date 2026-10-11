@@ -1,5 +1,10 @@
 import os from 'node:os';
 import path from 'node:path';
+import shibuya from '../../../data/featured/shibuya.json';
+import myeongdong from '../../../data/featured/myeongdong.json';
+import avenidaPaulista from '../../../data/featured/avenida-paulista.json';
+import khaoSan from '../../../data/featured/khao-san.json';
+import kalverstraat from '../../../data/featured/kalverstraat.json';
 import { boundsFor, overpassQuery, normalizeElements, DiskCache, tileXY, elevationGrid, WORLD_METRES } from '../../../lib/world.js';
 import { RequestQueue, geocode, overpass } from '../../../lib/providers.js';
 
@@ -11,11 +16,25 @@ const cache = new DiskCache(cacheDirectory);
 const geoQueue = new RequestQueue(1000);
 const mapQueue = new RequestQueue(200);
 
+// These snapshots keep the featured cruise locations presentation-safe when a
+// public Overpass mirror is slow or unavailable. Custom searches still fetch
+// current data from OSM below.
+const featuredWorlds = new Map([
+  ['shibuya crossing, tokyo, japan', shibuya.value],
+  ['myeongdong, seoul, south korea', myeongdong.value],
+  ['avenida paulista, são paulo, brazil', avenidaPaulista.value],
+  ['khao san road, bangkok, thailand', khaoSan.value],
+  ['kalverstraat, amsterdam, netherlands', kalverstraat.value],
+]);
+
 export async function GET(request) {
   const place = request.nextUrl.searchParams.get('place')?.trim() || '';
   if (!place || place.length > 160) return Response.json({ error: 'Enter a place name (up to 160 characters).' }, { status: 400 });
 
   try {
+    const featured = featuredWorlds.get(place.toLowerCase());
+    if (featured) return Response.json({ ...featured, featured: true, cached: true }, { headers: { 'cache-control': 'public, max-age=3600, s-maxage=86400' } });
+
     const key = `world:v4:${place.toLowerCase()}`;
     const cached = await cache.get(key);
     if (cached) return Response.json({ ...cached, cached: true }, { headers: { 'cache-control': 'no-store' } });
