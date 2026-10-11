@@ -14,12 +14,13 @@
     "test": "node --test test/**/*.test.js"
   },
   "dependencies": {
+    "@mapbox/vector-tile": "^3.0.0",
     "cannon-es": "^0.20.0",
     "next": "latest",
+    "pbf": "^5.1.2",
     "pngjs": "^7.0.0",
     "react": "latest",
     "react-dom": "latest",
     "three": "^0.180.0"
-  },
-  "devDependencies": {}
+  }
 }

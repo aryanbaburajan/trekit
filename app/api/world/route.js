@@ -5,8 +5,8 @@ import myeongdong from '../../../data/featured/myeongdong.json';
 import avenidaPaulista from '../../../data/featured/avenida-paulista.json';
 import khaoSan from '../../../data/featured/khao-san.json';
 import kalverstraat from '../../../data/featured/kalverstraat.json';
-import { boundsFor, overpassQuery, normalizeElements, DiskCache, tileXY, elevationGrid, WORLD_METRES } from '../../../lib/world.js';
-import { RequestQueue, geocode, overpass } from '../../../lib/providers.js';
+import { boundsFor, openFreeMapWorld, DiskCache, tileXY, elevationGrid, WORLD_METRES } from '../../../lib/world.js';
+import { RequestQueue, geocode } from '../../../lib/providers.js';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -14,7 +14,6 @@ export const dynamic = 'force-dynamic';
 const cacheDirectory = process.env.TREKIT_CACHE_DIR || (process.env.VERCEL ? path.join(os.tmpdir(), 'trekit-cache') : path.join(process.cwd(), '.cache'));
 const cache = new DiskCache(cacheDirectory);
 const geoQueue = new RequestQueue(1000);
-const mapQueue = new RequestQueue(200);
 
 // These snapshots keep the featured cruise locations presentation-safe when a
 // public Overpass mirror is slow or unavailable. Custom searches still fetch
@@ -42,8 +41,7 @@ export async function GET(request) {
     const location = await geocode(place, geoQueue);
     const sizeMetres = WORLD_METRES;
     const bounds = boundsFor(location.lat, location.lon, sizeMetres);
-    const raw = await mapQueue.run(() => overpass(overpassQuery(bounds)));
-    const data = normalizeElements(raw.elements, bounds, sizeMetres);
+    const data = await openFreeMapWorld(bounds, sizeMetres);
     if (!data.roads.length) throw Object.assign(new Error('No driveable roads were found in this 1 km area.'), { status: 422 });
 
     const elevation = await elevationGrid(bounds, cacheDirectory);
@@ -54,7 +52,7 @@ export async function GET(request) {
     };
     const world = {
       place: location, bounds, sizeMetres, areaReduced: false, terrain, elevation, ...data,
-      source: { osm: '© OpenStreetMap contributors', fetchedAt: new Date().toISOString(), overpass: true },
+      source: { osm: '© OpenStreetMap contributors', fetchedAt: new Date().toISOString(), provider: 'OpenFreeMap vector tiles', overpass: false },
     };
     await cache.set(key, world);
     return Response.json(world, { headers: { 'cache-control': 'no-store' } });
