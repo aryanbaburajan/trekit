@@ -7,16 +7,19 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "npx --yes vercel dev",
-    "build": "vite build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "warmup": "node tools/warmup.mjs",
     "test": "node --test test/**/*.test.js"
   },
   "dependencies": {
     "cannon-es": "^0.20.0",
+    "next": "latest",
     "pngjs": "^7.0.0",
+    "react": "latest",
+    "react-dom": "latest",
     "three": "^0.180.0"
   },
-  "devDependencies": {
-    "vite": "^7.1.7"
-  }
+  "devDependencies": {}
 }
