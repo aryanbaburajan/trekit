@@ -1,7 +1,7 @@
 import os from 'node:os';
 import path from 'node:path';
-import { boundsFor, overpassQuery, normalizeElements, DiskCache, tileXY, elevationGrid, WORLD_METRES } from '../server/lib/world.js';
-import { RequestQueue, geocode, overpass } from '../server/lib/providers.js';
+import { boundsFor, overpassQuery, normalizeElements, DiskCache, tileXY, elevationGrid, WORLD_METRES } from '../lib/world.js';
+import { RequestQueue, geocode, overpass } from '../lib/providers.js';
 
 // Vercel's deployed filesystem is read-only. /tmp is intentionally best-effort:
 // it survives warm invocations but must never be required for correctness.

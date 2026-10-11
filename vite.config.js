@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   root,
-  server: { port: 5173, proxy: { '/api': 'http://localhost:3000' } },
+  server: { port: 5173 },
   build: {
     outDir: 'dist',
     emptyOutDir: true,
