@@ -1,3 +1,4 @@
+import os from 'node:os';
 import path from 'node:path';
 import { boundsFor, overpassQuery, normalizeElements, DiskCache, tileXY, elevationGrid, WORLD_METRES } from '../../../lib/world.js';
 import { RequestQueue, geocode, overpass } from '../../../lib/providers.js';
@@ -5,7 +6,7 @@ import { RequestQueue, geocode, overpass } from '../../../lib/providers.js';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const cacheDirectory = process.env.TREKIT_CACHE_DIR || path.join(process.cwd(), '.cache');
+const cacheDirectory = process.env.TREKIT_CACHE_DIR || (process.env.VERCEL ? path.join(os.tmpdir(), 'trekit-cache') : path.join(process.cwd(), '.cache'));
 const cache = new DiskCache(cacheDirectory);
 const geoQueue = new RequestQueue(1000);
 const mapQueue = new RequestQueue(200);
