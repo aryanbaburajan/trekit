@@ -34,7 +34,7 @@ export async function GET(request) {
     const featured = featuredWorlds.get(place.toLowerCase());
     if (featured) return Response.json({ ...featured, featured: true, cached: true }, { headers: { 'cache-control': 'public, max-age=3600, s-maxage=86400' } });
 
-    const key = `world:v4:${place.toLowerCase()}`;
+    const key = `world:v5:${place.toLowerCase()}`;
     const cached = await cache.get(key);
     if (cached) return Response.json({ ...cached, cached: true }, { headers: { 'cache-control': 'no-store' } });
 
